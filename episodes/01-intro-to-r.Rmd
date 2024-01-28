@@ -1,6 +1,6 @@
 ---
-title: Introduction to R
-author: Data Carpentry contributors
+title: "Introduction to R"
+author: "Data Carpentry contributors"
 minutes: 45
 ---
 
@@ -86,7 +86,8 @@ Objects can be given almost any name such as `x`, `current_temperature`, or `sub
 :::::::::::::::::::::::::::::::::::::::::  callout
 
 ### Objects vs. variables
-
+# <note> This is a good lesson to cement in that the script and the console are related to each other
+# </note>  
 What are known as `objects` in `R` are known as `variables` in many other
 programming languages. Depending on the context, `object` and `variable` can
 have drastically different meanings. However, in this lesson, the two words
@@ -220,25 +221,102 @@ function operates, such as whether it ignores 'bad values', or what symbol to
 use in a plot.  However, if you want something specific, you can specify a value
 of your choice which will be used instead of the default.
 
-Let's try a function that can take multiple arguments: `round()`.
+<note>
+Now an important fact here is that functions are just a bunch of code wrapped together.
+Its just a canned recipe with set requirements/ingredients and always makes the same thing.
+Its like saying, I want to make a peanut butter and jelly sandwich. But I want to
+make it the exact same every single time. How would you instruct someone how to make
+a peanut butter jelly sandwich and gaurantee they'll make it the same everytime?
+
+Well you can write a recipe for them, or you can just build them a
+'peanut butter and jelly making machine'. In R we have these same options. We can either
+share scripts or make them functions/packages. except R makes making a pbj machine much easier. 
+
+So lets start with writing a recipe. How would you write a recipe for them and share that with them. It would look something like this:
+
+```
+Peanut Butter and Jelly Sandwich
+Ingredients
+- 2 slices of sandwich bread
+- Jelly
+- Peanut butter
+
+Instructions
+- Lay out two slices of bread
+- Spread 2tbsp of peanut butter on one slice of bread
+- Spread 2tbsp of grapy jelly on the other slice of bread
+- Place the two pieces of bread together (peanut butter to jelly)
+- Cut diagonal with a knife
+- Serve!
+```
+
+I can hand you this recipe and you'll know how to make a pb&j sandwich reliably. 
+This is your script. The script itself does not do the work. The script is just the recipe you hand over. The console is *you*, *you* are the one making the recipe.
+
+We'll play with this concept as we go.
+
+Now whats a function? Well its basically a pb&j machine. It uses a recipe. Takes the required ingredients. Makes your sandwich. Poops it out. Makes the same sandwich every single time.
+
+Lets look at the standard deviation function
+
+```{r}
+sd
+```
+
+When you print out a function without giving the brackets it will show you the *script* or the *recipe* it uses. This is one of the most simple functions. If you ignore the 'is.___' and you know that sqrt is the square root function and var is the variance function. Then it takes an input and calculates the square root of the variance.
+
+Let's try a simple function that can take multiple arguments: `round()`.
+
+```{r}
+round
+?round
+```
+
+It has two arguments, x and digits. These are the ingredients to your round sandwich. x is a common variable term for the data, in order to calculate the standard deviation it obviously needs *the data*. 
+
+It also is telling us it needs something else, digits. I know from this and from the help file, this argument is telling us how many digits to round our number to. This digits argument is set equal to 0. What does that mean? When youre running a function, the = means youre assigning a value to that function. This is how we tell the function what ingredient we want to use. Maybe you want to give it wheat bread, not white bread, maybe grape jelly not strawberry. etc.
+
+In our pb&j function we're essentially doing this:
+
+```
+pbj(bread = "white bread", jelly="smuckers grape jelly", peanut_butter = "jif smooth peanut butter")
+```
+
+So what this function is trying to tell us with digits=0 is basically telling us its default answer. If we don't tell it what kind of peanut butter or jelly we want to use, it will use the default.
+
+We can rewrite our pbj recipe like this:
+```
+Peanut Butter and Jelly Sandwich
+Ingredients
+- 2 slices of sandwich bread
+- Jelly (Smuckers Grape Jelly)
+- Peanut butter (Jif Smooth Peanut Butter)
+
+Instructions
+- Lay out two slices of bread
+- Spread 2tbsp of peanut butter on one slice of bread
+- Spread 2tbsp of grapy jelly on the other slice of bread
+- Place the two pieces of bread together (peanut butter to jelly)
+- Cut diagonal with a knife
+- Serve!
+```
+
+And in our SD function, its telling us if we dont assign a value to digits its going to use its default '0' meaning round to 0 decimals.
+</note>
+
 
 ```{r, results="show", purl=FALSE}
 round(3.14159)
 ```
 
 Here, we've called `round()` with just one argument, `3.14159`, and it has
-returned the value `3`.  That's because the default is to round to the nearest
-whole number. If we want more digits we can see how to do that by getting
+returned the value `3`. If we want more digits we can see how to do that by getting
 information about the `round` function.  We can use `args(round)` to find what
 arguments it takes, or look at the
 help for this function using `?round`.
 
 ```{r, results="show", purl=FALSE}
 args(round)
-```
-
-```{r, eval=FALSE, purl=FALSE}
-?round
 ```
 
 We see that if we want a different number of digits, we can
@@ -295,6 +373,46 @@ The quotes around "mouse", "rat", etc. are essential here. Without the quotes R
 will assume objects have been created called `mouse`, `rat` and `dog`. As these objects
 don't exist in R's memory, there will be an error message.
 
+<note> 
+We usually lose some people here. Maybe pause and talk about what a character is and why its important to specify it. Also go over that you can use single or double quotes.
+</note>
+
+<note>
+In all programming languages you have to specify the kinds of data youre using. 
+In R all R objects are built mainly from 4 **data types or atomic vector** :
+- `"numeric"` 
+- `"character"` 
+- `"logical"` for `TRUE` and `FALSE` (the boolean data type)
+- `"integer"` for integer numbers. Essentially a numeric with no decimal.
+- `"complex" and "raw"` - more complex and not in the scope of this lesson.
+
+Why is this important? Why do you have to tell R (or any programming language) what your data is. Well it has to know what you want it to do. And you dont want it to guess. 
+Programming languages largely dont like to guess, and they shouldnt, if they do
+it should be well documented what and why. The easiest and safest way to write
+languages is to have these standards. Having these data types is a way of making
+sure there is a standard to help R run smoothyl and reliably everytime.
+
+This easiest example is '1'. 
+
+'1' can be all 4 data types
+
+1 is a number. Its the first number!. It can also have a certain accuracy
+1 is also an integer. Its a non-decimal exact number. Its 1!
+1 is also used in logical. Well known in programming, but less known outside. 
+A common way to write or understand true and false is also 1 and 0. 
+It either is or isnt. Off or on.The absolute foundation of programming and electronics itself!
+1 can also be a character. "1" its not the first its not the measured value of 1. It is simply maybe your first plot. Number 1 because maybe an arbitrary reason. It was the first plot you went to.
+
+Now if youre trying to make a recipe and you gave it a value of 1, you can argue that
+the first three examples are sort of the same and shouldnt matter. Whether it was
+a numeric, integer, or logical representation of 1, you should always calculate the standard deviation, square root, mean, should always be the same. Logical might mean
+youre doing something wrong, however. As that doesnt make *that much sense*. 
+But what if 1 really meant 'Plot 1', in that case taking the mean of 'Plot 1' 
+well...is very illogical. Youd want it to probably stop and warn you something is weird. And thats actually what R does!. Another reason to have these data standards.
+
+So moving back to understanding objects..
+
+</note>
 There are many functions that allow you to inspect the content of a
 vector. `length()` tells you how many elements are in a particular vector:
 
@@ -337,16 +455,7 @@ We can do this over and over again to grow a vector, or assemble a dataset.
 As we program, this may be useful to add results that we are collecting or
 calculating.
 
-An **atomic vector** is the simplest R **data type** and is a linear vector of a single type. Above, we saw
-2 of the 6 main **atomic vector** types  that R
-uses: `"character"` and `"numeric"` (or `"double"`). These are the basic building blocks that
-all R objects are built from. The other 4 **atomic vector** types are:
-
-- `"logical"` for `TRUE` and `FALSE` (the boolean data type)
-- `"integer"` for integer numbers (e.g., `2L`, the `L` indicates to R that it's an integer)
-- `"complex"` to represent complex numbers with real and imaginary parts (e.g.,
-  `1 + 4i`) and that's all we're going to say about them
-- `"raw"` for bitstreams that we won't discuss further
+An **atomic vector** is the simplest R **data type** and is a linear vector of a single type.
 
 You can check the type of your vector using the `typeof()` function and inputting your vector as the argument.
 
@@ -531,7 +640,9 @@ animals[animals %in% c("rat", "cat", "dog", "duck", "goat", "bird", "fish")]
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
-
+# <note> we need another challenge here. Do an actual challenge and then at the
+# end have an option challenge
+# </note>
 ### Challenge (optional){.challenge}
 
 - Can you figure out why `"four" > "five"` returns `TRUE`?

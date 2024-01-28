@@ -71,7 +71,7 @@ make sure your working directory is set up properly.
 
 We are going to use the R function `download.file()` to download the CSV
 file that contains the survey data from Figshare, and we will use
-`read_csv()` to load the content of the CSV file into R.
+`read.csv()` to load the content of the CSV file into R.
 
 Inside the `download.file` command, the first entry is a character
 string with the source URL
@@ -83,6 +83,7 @@ your local machine. You'll need to have a folder on your machine called
 file from Figshare, names it "portal_data_joined.csv" and adds it to a
 preexisting folder named "data_raw".
 
+#<note> check here that everyone has this file </note>
 ```{r, eval=FALSE, purl=TRUE}
 download.file(url = "https://ndownloader.figshare.com/files/2292169",
               destfile = "data_raw/portal_data_joined.csv")
@@ -92,56 +93,34 @@ download.file(url = "https://ndownloader.figshare.com/files/2292169",
 
 The file has now been downloaded to the destination you specified, but R
 has not yet loaded the data from the file into memory. To do this, we
-can use the `read_csv()` function from the **`tidyverse`** package.
+can use the `read.csv()` function from the **`tidyverse`** package.
 
-Packages in R are basically sets of additional functions that let you do
-more stuff. The functions we've been using so far, like `round()`,
-`sqrt()`, or `c()` come built into R. Packages give you access to
-additional functions beyond base R. A similar function to `read_csv()`
-from the tidyverse package is `read.csv()` from base R. We don't have
-time to cover their differences but notice that the exact spelling
-determines which function is used. Before you use a package for the
-first time you need to install it on your machine, and then you should
-import it in every subsequent R session when you need it.
-
-To install the **`tidyverse`** package, we can type
-`install.packages("tidyverse")` straight into the console. In fact, it's
-better to write this in the console than in our script for any package,
-as there's no need to re-install packages every time we run the script.
-Then, to load the package type:
-
-```{r, message=FALSE, purl=FALSE}
-## load the tidyverse packages, incl. dplyr
-library(tidyverse)
-```
-
-Now we can use the functions from the **`tidyverse`** package. Let's use
-`read_csv()` to read the data into a data frame (we will learn more
-about data frames later):
 
 ```{r, eval=TRUE, purl=FALSE}
-surveys <- read_csv("data_raw/portal_data_joined.csv")
+surveys <- read.csv("data_raw/portal_data_joined.csv")
 ```
 
-When you execute `read_csv` on a data file, it looks through the first
+When you execute `read.csv` on a data file, it looks through the first
 1000 rows of each column and guesses its data type. For example, in this
-dataset, `read_csv()` reads `weight` as `col_double` (a numeric data
+dataset, `read.csv()` reads `weight` as `col_double` (a numeric data
 type), and `species` as `col_character`. You have the option to specify
 the data type for a column manually by using the `col_types` argument in
-`read_csv`.
+`read.csv`. <note> not sure this is what it does in read.csv</note>
 
 ::: callout
 ### Note
 
-`read_csv()` assumes that fields are delineated by commas. However, in
+`read.csv()` assumes that fields are delineated by commas. However, in
 several countries, the comma is used as a decimal separator and the
 semicolon (;) is used as a field delineator. If you want to read in this
-type of files in R, you can use the `read_csv2()` function. It behaves
-like `read_csv()` but uses different parameters for the decimal and the
-field separators. There is also the `read_tsv()` for tab separated data
-files and `read_delim()` for less common formats. Check out the help for
-`read_csv()` by typing `?read_csv` to learn more.
+type of files in R, you can use the `read.csv2()` function. It behaves
+like `read.csv()` but uses different parameters for the decimal and the
+field separators. There is also the `read.delim()` for tab separated data
+files. Check out the help for
+`read.table()` by typing `?read.table` to learn more.
 
+
+<note> Can just skip this but leave in notes for others to read later </note>
 In addition to the above versions of the csv format, you should develop
 the habits of looking at and recording some parameters of your csv
 files. For instance, the character encoding, control characters used for
@@ -178,24 +157,14 @@ To open the dataset in RStudio's Data Viewer, use the `view()` function:
 view(surveys)
 ```
 
-::: callout
-### Note
-
-There are two functions for viewing which are case-sensitive. Using
-`view()` with a lowercase 'v' is part of tidyverse, whereas using
-`View()` with an uppercase 'V' is loaded through base R in the `utils`
-package.
-:::
 
 ## What are data frames?
 
 When we loaded the data into R, it got stored as an object of class
-`tibble`, which is a special kind of data frame (the difference is not
-important for our purposes, but you can learn more about tibbles
-[here](https://tibble.tidyverse.org/)). Data frames are the *de facto*
+`data frame` Data frames are the *de facto*
 data structure for most tabular data, and what we use for statistics and
 plotting. Data frames can be created by hand, but most commonly they are
-generated by functions like `read_csv()`; in other words, when importing
+generated by functions like `read.csv()`; in other words, when importing
 spreadsheets from your hard drive or the web.
 
 A data frame is the representation of data in the format of a table
@@ -453,7 +422,7 @@ behave) like character vectors, they are actually treated as integer
 vectors by R. So you need to be very careful when treating them as
 strings.
 
-When importing a data frame with `read_csv()`, the columns that contain
+When importing a data frame with `read.csv()`, the columns that contain
 text are not automatically coerced (=converted) into the `factor` data
 type, but once we have loaded the data we can do the conversion using
 the `factor()` function:
@@ -593,7 +562,7 @@ over the course of the experiment:
 ## bar plot of the number of females and males captured during the experiment:
 plot(surveys$sex)
 ```
-
+<note> Check whether this is necessary, it seems needlessly complex</note>
 However, as we saw when we used `summary(surveys$sex)`, there are about
 1700 individuals for which the sex information hasn't been recorded. To
 show them in the plot, we can turn the missing values into a factor
@@ -646,7 +615,7 @@ plot(sex)
 ::: challenge
 ### Challenge
 
-1.  We have seen how data frames are created when using `read_csv()`,
+1.  We have seen how data frames are created when using `read.csv()`,
     but they can also be created by hand with the `data.frame()`
     function. There are a few mistakes in this hand-crafted
     `data.frame`. Can you spot and fix them? Don't hesitate to
@@ -714,134 +683,7 @@ column that should only contain numbers).
 Learn more in this [RStudio
 tutorial](https://support.rstudio.com/hc/en-us/articles/218611977-Importing-Data-with-RStudio)
 
-## Formatting dates
 
-A common issue that new (and experienced!) R users have is converting
-date and time information into a variable that is suitable for analyses.
-One way to store date information is to store each component of the date
-in a separate column. Using `str()`, we can confirm that our data frame
-does indeed have a separate column for day, month, and year, and that
-each of these columns contains integer values.
-
-```{r, eval=FALSE, purl=FALSE}
-str(surveys)
-```
-
-We are going to use the `ymd()` function from the package
-**`lubridate`** (which belongs to the **`tidyverse`**; learn more
-[here](https://www.tidyverse.org/)). **`lubridate`** gets installed as
-part as the **`tidyverse`** installation. When you load the
-**`tidyverse`** (`library(tidyverse)`), the core packages (the packages
-used in most data analyses) get loaded. **`lubridate`** however does not
-belong to the core tidyverse, so you have to load it explicitly with
-`library(lubridate)`
-
-Start by loading the required package:
-
-```{r load-package, message=FALSE, purl=FALSE}
-library(lubridate)
-```
-
-The **`lubridate`** package has many useful functions for working with
-dates. These can help you extract dates from different string
-representations, convert between timezones, calculate time differences
-and more. You can find an overview of them in the [lubridate cheat
-sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf).
-
-Here we will use the function `ymd()`, which takes a vector representing
-year, month, and day, and converts it to a `Date` vector. `Date` is a
-class of data recognized by R as being a date and can be manipulated as
-such. The argument that the function requires is flexible, but, as a
-best practice, is a character vector formatted as "YYYY-MM-DD".
-
-Let's create a date object and inspect the structure:
-
-```{r, purl=FALSE}
-my_date <- ymd("2015-01-01")
-str(my_date)
-```
-
-Now let's paste the year, month, and day separately - we get the same
-result:
-
-```{r, purl=FALSE}
-# sep indicates the character to use to separate each component
-my_date <- ymd(paste("2015", "1", "1", sep = "-")) 
-str(my_date)
-```
-
-Now we apply this function to the surveys dataset. Create a character
-vector from the `year`, `month`, and `day` columns of `surveys` using
-`paste()`:
-
-```{r, purl=FALSE}
-paste(surveys$year, surveys$month, surveys$day, sep = "-")
-```
-
-This character vector can be used as the argument for `ymd()`:
-
-```{r, purl=FALSE}
-ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
-```
-
-There is a warning telling us that some dates could not be parsed
-(understood) by the `ymd()` function. For these dates, the function has
-returned `NA`, which means they are treated as missing values. We will
-deal with this problem later, but first we add the resulting `Date`
-vector to the `surveys` data frame as a new column called `date`:
-
-```{r, purl=FALSE}
-surveys$date <- ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
-str(surveys) # notice the new column, with 'date' as the class
-```
-
-Let's make sure everything worked correctly. One way to inspect the new
-column is to use `summary()`:
-
-```{r, results=TRUE, purl=FALSE}
-summary(surveys$date)
-```
-
-Let's investigate why some dates could not be parsed.
-
-We can use the functions we saw previously to deal with missing data to
-identify the rows in our data frame that are failing. If we combine them
-with what we learned about subsetting data frames earlier, we can
-extract the columns "year,"month", "day" from the records that have `NA`
-in our new column `date`. We will also use `head()` so we don't clutter
-the output:
-
-```{r, results=TRUE, purl=FALSE}
-missing_dates <- surveys[is.na(surveys$date), c("year", "month", "day")]
-
-head(missing_dates)
-```
-
-Why did these dates fail to parse? If you had to use these data for your
-analyses, how would you deal with this situation?
-
-The answer is because the dates provided as input for the `ymd()`
-function do not actually exist. If we refer to the output we got above,
-September and April only have 30 days, not 31 days as it is specified in
-our dataset.
-
-There are several ways you could deal with situation:
-
--   If you have access to the raw data (e.g., field sheets) or
-    supporting information (e.g., field trip reports/logs), check them
-    and ensure the electronic database matches the information in the
-    original data source.
--   If you are able to contact the person responsible for collecting the
-    data, you could refer to them and ask for clarification.
--   You could also check the rest of the dataset for clues about the
-    correct value for the erroneous dates.
--   If your project has guidelines on how to correct this sort of
-    errors, refer to them and apply any recommendations.
--   If it is not possible to ascertain the correct value for these
-    observations, you may want to leave them as missing data.
-
-Regardless of the option you choose, it is important that you document
-the error and the corrections (if any) that you apply to your data.
 
 ::: keypoints
 -   Use `read.csv` to read tabular data in R.

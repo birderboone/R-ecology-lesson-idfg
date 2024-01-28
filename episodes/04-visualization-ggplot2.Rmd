@@ -5,7 +5,9 @@ minutes: 60
 editor_options:
   chunk_output_type: console
 ---
-
+<note> convert this a 'clean' data set that people can pick up and load if they just cant.
+Usually some people get lost here
+</note>
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE, purl=FALSE}
 source("setup.R")
 surveys_complete <- read_csv(file = "data_raw/portal_data_joined.csv", col_types = cols()) %>% drop_na(weight, hindfoot_length, sex) %>% group_by(species_id) %>% filter(n() >= 50) %>% ungroup()
@@ -651,42 +653,6 @@ Here are some ideas:
   [https://r-graphics.org/chapter-colors](https://r-graphics.org/chapter-colors)).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Arranging plots
-
-Faceting is a great tool for splitting one plot into multiple plots, but
-sometimes you may want to produce a single figure that contains multiple plots
-using different variables or even different data frames. The **`patchwork`**
-package allows us to combine separate ggplots into a single figure while keeping
-everything aligned properly. Like most R packages, we can install `patchwork`
-from CRAN, the R package repository:
-
-```{r patchwork-install, eval=FALSE}
-install.packages("patchwork")
-```
-
-After you have loaded the `patchwork` package you can use `+` to place plots
-next to each other, `/` to arrange them vertically, and `plot_layout()` to
-determine how much space each plot uses:
-
-```{r patchwork-example, message=FALSE, purl=FALSE, fig.width=10}
-library(patchwork)
-
-plot_weight <- ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
-  geom_boxplot() +
-  labs(x = "Species", y = expression(log[10](Weight))) +
-  scale_y_log10()
-
-plot_count <- ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
-  geom_line() +
-  labs(x = "Year", y = "Abundance")
-
-plot_weight / plot_count + plot_layout(heights = c(3, 2))
-```
-
-You can also use parentheses `()` to create more complex layouts. There are
-many useful examples on the [patchwork website](https://patchwork.data-imaginist.com/)
-
 ## Exporting plots
 
 After creating your plot, you can save it to a file in your favorite format. The
@@ -732,6 +698,44 @@ saved plot.
 ##  ggplot2 cheat sheet for inspiration:
 ##  https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf
 ```
+
+
+<note> This is extra innings mode here. People can read this later. </note>
+## Arranging plots
+
+Faceting is a great tool for splitting one plot into multiple plots, but
+sometimes you may want to produce a single figure that contains multiple plots
+using different variables or even different data frames. The **`patchwork`**
+package allows us to combine separate ggplots into a single figure while keeping
+everything aligned properly. Like most R packages, we can install `patchwork`
+from CRAN, the R package repository:
+
+```{r patchwork-install, eval=FALSE}
+install.packages("patchwork")
+```
+
+After you have loaded the `patchwork` package you can use `+` to place plots
+next to each other, `/` to arrange them vertically, and `plot_layout()` to
+determine how much space each plot uses:
+
+```{r patchwork-example, message=FALSE, purl=FALSE, fig.width=10}
+library(patchwork)
+
+plot_weight <- ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
+  geom_boxplot() +
+  labs(x = "Species", y = expression(log[10](Weight))) +
+  scale_y_log10()
+
+plot_count <- ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
+  geom_line() +
+  labs(x = "Year", y = "Abundance")
+
+plot_weight / plot_count + plot_layout(heights = c(3, 2))
+```
+
+You can also use parentheses `()` to create more complex layouts. There are
+many useful examples on the [patchwork website](https://patchwork.data-imaginist.com/)
+
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 

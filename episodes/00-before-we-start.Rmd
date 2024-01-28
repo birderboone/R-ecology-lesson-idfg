@@ -196,6 +196,10 @@ Tools --> 'Global Options' and select the 'Never' option for
 ![](fig/rstudio-preferences.png){alt="Set 'Save workspace to .RData on exit' to'Never'"}
 
 ### Organizing your working directory
+# <note> I think this is up for debate on whether its useful for an 8 hour course. 
+# My experience is people get lost in this concept and we don't use them that much
+# At the end of the lesson we might have one thing in each folder.
+# </note>
 
 Using a consistent folder structure across your projects will help keep things
 organized, and will help you to find/file things in the future. This
@@ -308,12 +312,18 @@ quotation, i.e. you don't have the same number of left-parentheses as
 right-parentheses, or the same number of opening and closing quotation marks.
 When this happens, and you thought you finished typing your command, click
 inside the console window and press <kbd>`Esc`</kbd>; this will cancel the
-incomplete command and return you to the `>` prompt.
+incomplete command and return you to the `>` prompt.\
+
+<note>
+I want everyone to understand that what happens in scripts is that its loading things to the console. The console is the engine where everything actually gets done. The script is just the recipe, the steps, for the process. So if I type something in the console, it runs. If I run something in the script, it also runs, but it runs it *in* the console. This is why you can run something in either the console or the script. Scripts just send commands to the console. Thats also why things 'print' or 'output' to the console. 
+</note>
 
 ## Seeking help
 
 ### Searching function documentation with `?` and `??`
-
+# <note> I've never understood the emphasis on in code help. Instead of
+# Just using the help pane. To me it also confuses people a lot
+# </note>
 If you need help with a specific function, let's say `mean()`, you can type
 `?mean` or press <kbd>F1</kbd> while your cursor is on the function name. If you
 are looking for a function to do a particular task, but don't know the function
@@ -426,18 +436,12 @@ and help others to pinpoint where the issue might be. Try to...
   are using. As an example, here you can see the versions of R and all the
   packages that we are using to run the code in this lesson:
 
-```{r, echo=FALSE, message=FALSE, purl=FALSE}
-# temporarily load RSQLite so that the version shows in sessionInfo()
-library(RSQLite)
-```
+
 
 ```{r, results="show", purl=FALSE}
 sessionInfo()
 ```
 
-```{r, echo=FALSE, message=FALSE, purl=FALSE}
-detach(package:RSQLite, unload=TRUE)
-```
 
 ## How to learn more after the workshop?
 
@@ -453,14 +457,20 @@ their code available online, modifying existing code to suit your purpose might
 get first hands-on experience using R for your own work and help you become
 comfortable eventually creating your own scripts.
 
-```{r kitten-img, results="markup", echo=FALSE, purl=FALSE, out.width="400px", fig.align="center"}
-knitr::include_graphics("fig/kitten-try-things.jpg")
-```
 
 ## More resources
 
 #### More about R
 
+*Useful*  
+- Swirl - R package used to get you started on beginner stuff. This might be a good one to 
+remind you what it is we did today
+- R for Data Science - Next step - intermediate level - learning. Takes a unique view on teaching R. Starts with visualization before cleaning. Good place to start after this clase
+[R for Data Science](https://r4ds.hadley.nz/)
+- Coursea - Can be difficult to grasp as a beginner, after this course you should be able to handle it much ebtter with ease. More course centric approach if thats what you need
+- Get a project and start playing around with R
+
+*Dry*
 - The [Introduction to R](https://cran.r-project.org/doc/manuals/R-intro.pdf)
   can also be dense for people with little programming experience but it is a
   good place to understand the underpinnings of the R language.
@@ -469,6 +479,12 @@ knitr::include_graphics("fig/kitten-try-things.jpg")
 - To stay up to date, follow `#rstats` on twitter. Twitter can also be a way
   to get questions answered and learn about useful R packages and tipps (e.g.,
   [@RLangTips])
+
+*Also*
+```{r kitten-img, results="markup", echo=FALSE, purl=FALSE, out.width="400px", fig.align="center"}
+knitr::include_graphics("fig/kitten-try-things.jpg")
+```
+Idk what this is, but carpentries supposedly likes it for teaching programming.
 
 #### How to ask good programming questions?
 

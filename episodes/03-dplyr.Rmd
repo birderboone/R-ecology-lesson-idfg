@@ -37,7 +37,39 @@ suppressWarnings(surveys$date <- lubridate::ymd(paste(surveys$year,
 - How can I create new columns or remove existing columns from a dataframe?
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::
+# Loading packages 
+Packages in R are basically sets of additional functions that let you do
+more stuff. The functions we've been using so far, like `round()`,
+`sqrt()`, or `c()` come built into R. Packages give you access to
+additional functions beyond base R. A similar function to `read.csv()`
+is `read_csv()` from the tidyverse package which we will mention in the next lesson. We don't have time to cover their differences but notice that the exact spelling
+determines which function is used. Before you use a package for the
+first time you need to install it on your machine, and then you should
+import it in every subsequent R session when you need it.
 
+Packages in our pb&j example is kind of like giving somebody a
+box full of 'sandwich making' tools and machines.
+Maybe you wanna give them a box pb&j machine, a bread maker, a bread slicer
+etc. All these things are related to making a sandwich, some of them,
+like the bread slicer is actually used in the pb&j machine.
+
+Thats all packages R a related set of functions written and built by some
+developer
+
+To install the **`tidyverse`** package, we can type
+`install.packages("tidyverse")` straight into the console. In fact, it's
+better to write this in the console than in our script for any package,
+as there's no need to re-install packages every time we run the script.
+Then, to load the package type:
+
+```{r, message=FALSE, purl=FALSE}
+## load the tidyverse packages, incl. dplyr
+library(tidyverse)
+```
+
+Now we can use the functions from the **`tidyverse`** package. Let's use
+`read.csv()` to read the data into a data frame (we will learn more
+about data frames later):
 # Data manipulation using **`dplyr`** and **`tidyr`**
 
 Bracket subsetting is handy, but it can be cumbersome and difficult to read,
@@ -524,225 +556,6 @@ surveys %>%
 ##  columns `year`, `genus`, `species_id`, and `weight`.
 ```
 
-### Reshaping with pivot\_longer and pivot\_wider
-
-In the [spreadsheet
-lesson](https://datacarpentry.org/spreadsheet-ecology-lesson/01-format-data/),
-we discussed how to structure our data leading to the four rules defining a tidy
-dataset:
-
-1. Each variable has its own column
-2. Each observation has its own row
-3. Each value must have its own cell
-4. Each type of observational unit forms a table
-
-Here we examine the fourth rule: Each type of observational unit forms a table.
-
-In `surveys`, the rows of `surveys` contain the values of variables associated
-with each record (the unit), values such as the weight or sex of each animal
-associated with each record. What if instead of comparing records, we
-wanted to compare the different mean weight of each genus between plots? (Ignoring `plot_type` for simplicity).
-
-We'd need to create a new table where each row (the unit) is comprised of values of variables associated with each plot. In practical terms this means the values
-in `genus` would become the names of column variables and the cells would contain the values of the mean weight observed on each plot.
-
-Having created a new table, it is therefore straightforward to explore the
-relationship between the weight of different genera within, and between, the
-plots. The key point here is that we are still following a tidy data structure,
-but we have **reshaped** the data according to the observations of interest:
-average genus weight per plot instead of recordings per date.
-
-The opposite transformation would be to transform column names into values of
-a variable.
-
-We can do both these of transformations with two `tidyr` functions, `pivot_wider()`
-and `pivot_longer()`.
-
-These may sound like dramatically different data layouts, but there are some tools that make transitions between these layouts more straightforward than you might think! The gif below shows how these two formats relate to each other, and gives you an idea of how we can use R to shift from one format to the other.
-
-![](fig/tidyr-pivot_wider_longer.gif)
-
-#### Pivoting from long to wide format
-
-`pivot_wider()` takes three principal arguments:
-
-1. the data
-2. the *names\_from* column variable whose values will become new column names.
-3. the *values\_from* column variable whose values will fill the new column variables.
-
-Further arguments include `values_fill` which, if set, fills in missing values with
-the value provided.
-
-Let's use `pivot_wider()` to transform surveys to find the mean weight of each
-genus in each plot over the entire survey period. We use `filter()`,
-`group_by()` and `summarize()` to filter our observations and variables of
-interest, and create a new variable for the `mean_weight`.
-
-```{r, purl=FALSE}
-surveys_gw <- surveys %>%
-  filter(!is.na(weight)) %>%
-  group_by(plot_id, genus) %>%
-  summarize(mean_weight = mean(weight))
-
-str(surveys_gw)
-```
-
-This yields `surveys_gw` where the observations for each plot are distributed across
-multiple rows, 196 observations of 3 variables.
-Using `pivot_wider()` with the names from `genus` and with values from `mean_weight` this becomes
-24 observations of 11 variables, one row for each plot.
-
-```{r, purl=FALSE}
-surveys_wide <- surveys_gw %>%
-  pivot_wider(names_from = genus, values_from = mean_weight)
-
-str(surveys_wide)
-```
-
-![](fig/pivot_wider_graphic.png)
-
-We could now plot comparisons between the weight of genera (one is called a genus, multiple are called genera) in different plots,
-although we may wish to fill in the missing values first.
-
-```{r, purl=FALSE}
-surveys_gw %>%
-  pivot_wider(names_from = genus, values_from = mean_weight, values_fill = 0) %>%
-  head()
-```
-
-#### Pivoting from wide to long format
-
-The opposing situation could occur if we had been provided with data in the
-form of `surveys_wide`, where the genus names are column names, but we
-wish to treat them as values of a genus variable instead.
-
-In this situation we are reshaping the column names and turning them into a
-pair of new variables. One variable represents the column names as values, and
-the other variable contains the values previously associated with the column names.
-
-`pivot_longer()` takes four principal arguments:
-
-1. the data
-2. the *names\_to* column variable we wish to create from column names.
-3. the *values\_to* column variable we wish to create and fill with values.
-4. *cols* are the name of the columns we use to make this pivot (or to drop).
-
-To recreate `surveys_gw` from `surveys_wide` we would create a names variable called
-`genus` and value variable called `mean_weight`.
-
-In pivoting longer, we also need to specify what columns to reshape. If the columns are directly adjacent as they are here, we don't even need to list the all out: we can just use the `:` operator!
-
-```{r, purl=FALSE}
-surveys_long <- surveys_wide %>%
-  pivot_longer(names_to = "genus", values_to = "mean_weight", cols = -plot_id)
-
-str(surveys_long)
-```
-
-![](fig/pivot_longer_graphic.png)
-
-Note that now the `NA` genera are included in the long format data frame. Pivoting wider
-and then longer can be a useful way to balance out a dataset so that every
-replicate has the same composition
-
-We could also have used a specification for what columns to exclude. In this example,
-we will use all columns *except* `plot_id` for the names variable. By using the minus sign in the `cols` argument,
-we omit `plot_id` from being reshaped
-
-```{r, purl=FALSE}
-surveys_wide %>%
-  pivot_longer(names_to = "genus", values_to = "mean_weight", cols = -plot_id) %>%
-  head()
-```
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-### Challenge {.challenge}
-
-1. Reshape the `surveys` data frame with `year` as columns, `plot_id`
-  as rows, and the
-  number of genera per plot as the values. You will need to summarize before
-  reshaping, and use the function `n_distinct()` to get the number of unique
-  genera within a particular chunk of data. It's a powerful function! See
-  `?n_distinct` for more.
-
-:::::::: solution
-
-```{r, answer=TRUE, purl=FALSE}
-surveys_wide_genera <- surveys %>%
-  group_by(plot_id, year) %>%
-  summarize(n_genera = n_distinct(genus)) %>%
-  pivot_wider(names_from = year, values_from = n_genera)
-
-head(surveys_wide_genera)
-```
-
-:::::::::::::::::
-
-2. Now take that data frame and `pivot_longer()` it, so each row is a unique
-  `plot_id` by `year` combination.
-
-:::::::: solution
-
-```{r, answer=TRUE, purl=FALSE}
-surveys_wide_genera %>%
-  pivot_longer(names_to = "year", values_to = "n_genera", cols = -plot_id)
-```
-
-:::::::::::::::::
-
-3. The `surveys` data set has
-  two measurement columns: `hindfoot_length` and `weight`. This makes it
-  difficult to do things like look at the relationship between mean values of
-  each measurement per year in different plot types. Let's walk through a
-  common solution for this type of problem. First, use `pivot_longer()` to create a
-  dataset where we have a names column called `measurement` and a
-  `value` column that takes on the value of either `hindfoot_length` or
-  `weight`. *Hint*: You'll need to specify which columns will be part of the reshape.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::  blockquote
-
-:::::::: solution
-
-```{r, answer=TRUE, purl=FALSE}
-surveys_long <- surveys %>%
-  pivot_longer(names_to = "measurement", values_to = "value", cols = c(hindfoot_length, weight))
-```
-
-:::::::::::::::::
-
-4. With this new data set, calculate the average of each
-  `measurement` in each `year` for each different `plot_type`. Then
-  `pivot_wider()` them into a data set with a column for `hindfoot_length` and
-  `weight`. *Hint*: You only need to specify the names and values
-  columns for `pivot_wider()`.
-
-:::::::: solution
-
-```{r, answer=TRUE, purl=FALSE}
-surveys_long %>%
-  group_by(year, measurement, plot_type) %>%
-  summarize(mean_value = mean(value, na.rm=TRUE)) %>%
-  pivot_wider(names_from = measurement, values_from = mean_value)
-```
-
-:::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-```{r, eval=FALSE, purl=TRUE, echo=FALSE}
-## Reshaping challenges
-
-## 1. Reshape the `surveys` data frame with `year` as columns, `plot_id` as rows, and the number of genera per plot as the values. You will need to summarize before reshaping, and use the function `n_distinct()` to get the number of unique genera within a particular chunk of data. It's a powerful function! See `?n_distinct` for more.
-
-## 2. Now take that data frame and `pivot_longer()` it, so each row is a unique `plot_id` by `year` combination.
-
-## 3. The `surveys` data set has two measurement columns: `hindfoot_length` and `weight`. This makes it difficult to do things like look at the relationship between mean values of each measurement per year in different plot types. Let's walk through a common solution for this type of problem. First, use `pivot_longer()` to create a dataset where we have a names column called `measurement` and a `value` column that takes on the value of either `hindfoot_length` or `weight`. *Hint*: You'll need to specify which columns will be part of the reshape.
-
-## 4. With this new data set, calculate the average of each `measurement` in each `year` for each different `plot_type`. Then `pivot_wider()` them into a data set with a column for `hindfoot_length` and `weight`. *Hint*: You only need to specify the names and values columns for `pivot_wider()`.
-```
 
 # Exporting data
 
@@ -829,6 +642,7 @@ write_csv(surveys_complete, file = "data/surveys_complete.csv")
 if (!dir.exists("data")) dir.create("data")
 write_csv(surveys_complete, file = "data/surveys_complete.csv")
 ```
+
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
