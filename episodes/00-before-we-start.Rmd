@@ -197,15 +197,18 @@ Tools --> 'Global Options' and select the 'Never' option for
 ![](fig/rstudio-preferences.png){alt="Set 'Save workspace to .RData on exit' to'Never'"}
 
 ### Organizing your working directory
-# <note> I think this is up for debate on whether its useful for an 8 hour course. 
-# My experience is people get lost in this concept and we don't use them that much
-# At the end of the lesson we might have one thing in each folder.
-# </note>
+<!-- <note> I think this is up for debate on whether its useful for an 8 hour course. 
+My experience is people get lost in this concept and we don't use them that much
+At the end of the lesson we might have one thing in each folder.
+</note> -->
 
 Using a consistent folder structure across your projects will help keep things
 organized, and will help you to find/file things in the future. This
-can be especially helpful when you have multiple projects. In general, you may
-create directories (folders) for **scripts** and **data**
+can be especially helpful when you have multiple projects.
+
+Right now I want you to create 2 directories (folders) calle **scripts** and **data**.
+
+Best practice teaches you its good to always have atleast 4 kinds of folders in your project folder:
 
 - **`data_raw/` \& `data/`** Use these folders to store raw data and
   intermediate datasets you may create for the need of a particular analysis.

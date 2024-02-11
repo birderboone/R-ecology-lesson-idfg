@@ -63,7 +63,7 @@ animal, and the columns represent:
 
 ### Downloading the data
 
-We created the folder that will store the downloaded data (`data_raw`)
+We created the folder that will store the downloaded data (`data`)
 in the chapter ["Before we
 start"](https://datacarpentry.org/R-ecology-lesson/00-before-we-start.html#Organizing_your_working_directory).
 If you skipped that part, it may be a good idea to have a look now, to
@@ -77,35 +77,39 @@ Inside the `download.file` command, the first entry is a character
 string with the source URL
 ("<https://ndownloader.figshare.com/files/2292169>"). This source URL
 downloads a CSV file from figshare. The text after the comma
-("data_raw/portal_data_joined.csv") is the destination of the file on
+("data/portal_data_joined.csv") is the destination of the file on
 your local machine. You'll need to have a folder on your machine called
-"data_raw" where you'll download the file. So this command downloads a
+"data" where you'll download the file. So this command downloads a
 file from Figshare, names it "portal_data_joined.csv" and adds it to a
 preexisting folder named "data_raw".
 
-#<note> check here that everyone has this file </note>
+**\<note>** check here that everyone has this file **\</note>**
+
 ```{r, eval=FALSE, purl=TRUE}
 download.file(url = "https://ndownloader.figshare.com/files/2292169",
-              destfile = "data_raw/portal_data_joined.csv")
+              destfile = "data/portal_data_joined.csv")
 ```
 
 ### Reading the data into R
 
 The file has now been downloaded to the destination you specified, but R
 has not yet loaded the data from the file into memory. To do this, we
-can use the `read.csv()` function from the **`tidyverse`** package.
+can use the `read.csv()` function.
 
 
 ```{r, eval=TRUE, purl=FALSE}
 surveys <- read.csv("data_raw/portal_data_joined.csv")
+str(surveys)
 ```
 
 When you execute `read.csv` on a data file, it looks through the first
 1000 rows of each column and guesses its data type. For example, in this
-dataset, `read.csv()` reads `weight` as `col_double` (a numeric data
-type), and `species` as `col_character`. You have the option to specify
-the data type for a column manually by using the `col_types` argument in
-`read.csv`. <note> not sure this is what it does in read.csv</note>
+dataset, `read.csv()` reads `weight` as `integer` (a numeric data
+type), and `species` as `character`. You have the option to specify
+the data type for a column manually by using the `colClasses` argument in
+`read.csv`. 
+
+<!-- not sure this is what it does in read.csv -->
 
 ::: callout
 ### Note
@@ -120,7 +124,8 @@ files. Check out the help for
 `read.table()` by typing `?read.table` to learn more.
 
 
-<note> Can just skip this but leave in notes for others to read later </note>
+**\<note>** You can just skip this in class, but leave it in notes for others to read later **\</note>**  
+
 In addition to the above versions of the csv format, you should develop
 the habits of looking at and recording some parameters of your csv
 files. For instance, the character encoding, control characters used for
@@ -151,7 +156,7 @@ apply them to the whole data set. There is a similar function that lets
 you extract the last few lines of the data set. It is called (you might
 have guessed it) `tail()`.
 
-To open the dataset in RStudio's Data Viewer, use the `view()` function:
+To open the dataset in RStudio's Data Viewer, use the `view()` function, or just click the spreadsheet symbol in the Environment pane:
 
 ```{r, eval=FALSE, purl=FALSE}
 view(surveys)
