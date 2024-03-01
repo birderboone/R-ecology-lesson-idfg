@@ -361,4 +361,137 @@ surveys_long %>%
 ## 4. With this new data set, calculate the average of each `measurement` in each `year` for each different `plot_type`. Then `pivot_wider()` them into a data set with a column for `hindfoot_length` and `weight`. *Hint*: You only need to specify the names and values columns for `pivot_wider()`.
 ```
 
+#
+### Renaming factors
+
+When your data is stored as a factor, you can use the `plot()` function
+to get a quick glance at the number of observations represented by each
+factor level. Let's look at the number of males and females captured
+over the course of the experiment:
+
+```{r, purl=TRUE}
+## bar plot of the number of females and males captured during the experiment:
+plot(surveys$sex)
+```
+
+<!-- Check whether this is necessary, it seems needlessly complex -->
+
+However, as we saw when we used `summary(surveys$sex)`, there are about
+1700 individuals for which the sex information hasn't been recorded. To
+show them in the plot, we can turn the missing values into a factor
+level with the `addNA()` function. We will also have to give the new
+factor level a label. We are going to work with a copy of the `sex`
+column, so we're not modifying the working copy of the data frame:
+
+```{r, results=TRUE, purl=FALSE}
+sex <- surveys$sex
+levels(sex)
+sex <- addNA(sex)
+levels(sex)
+head(sex)
+levels(sex)[3] <- "undetermined"
+levels(sex)
+head(sex)
+```
+
+Now we can plot the data again, using `plot(sex)`.
+
+```{r, echo=FALSE, purl=FALSE, results=TRUE}
+plot(sex)
+```
+
+::: challenge
+### Challenge
+
+-   Rename "F" and "M" to "female" and "male" respectively.
+-   Now that we have renamed the factor level to "undetermined", can you
+    recreate the barplot such that "undetermined" is first (before
+    "female")?
+
+::: solution
+```{r, answer=TRUE, purl=FALSE}
+levels(sex)[1:2] <- c("female", "male")
+sex <- factor(sex, levels = c("undetermined", "female", "male"))
+plot(sex)
+```
+:::
+:::
+
+```{r wrong-order, results="show", echo=FALSE, purl=TRUE}
+## Challenges
+##
+## * Rename "F" and "M" to "female" and "male" respectively.
+## * Now that we have renamed the factor level to "undetermined", can you recreate the
+##   barplot such that "undetermined" is first (before "female")
+```
+
+### 4 GGplot
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Challenge (optional)
+
+Scatter plots can be useful exploratory tools for small datasets. For data
+sets with large numbers of observations, such as the `surveys_complete` data
+set, overplotting of points can be a limitation of scatter plots. One strategy
+for handling such settings is to use hexagonal binning of observations. The
+plot space is tessellated into hexagons. Each hexagon is assigned a color
+based on the number of observations that fall within its boundaries.  To use
+hexagonal binning with **`ggplot2`**, first install the R package `hexbin`
+from CRAN:
+
+```{r, eval=FALSE}
+install.packages("hexbin")
+library(hexbin)
+```
+
+Then use the `geom_hex()` function:
+
+```{r, eval=FALSE}
+surveys_plot +
+ geom_hex()
+```
+
+- What are the relative strengths and weaknesses of a hexagonal bin plot
+  compared to a scatter plot? Examine the above scatter plot and compare it
+  with the hexagonal bin plot that you created.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+<!-- This is extra innings mode here. People can read this later. -->
+## Arranging plots
+
+Faceting is a great tool for splitting one plot into multiple plots, but
+sometimes you may want to produce a single figure that contains multiple plots
+using different variables or even different data frames. The **`patchwork`**
+package allows us to combine separate ggplots into a single figure while keeping
+everything aligned properly. Like most R packages, we can install `patchwork`
+from CRAN, the R package repository:
+
+```{r patchwork-install, eval=FALSE}
+install.packages("patchwork")
+```
+
+After you have loaded the `patchwork` package you can use `+` to place plots
+next to each other, `/` to arrange them vertically, and `plot_layout()` to
+determine how much space each plot uses:
+
+```{r patchwork-example, message=FALSE, purl=FALSE, fig.width=10}
+library(patchwork)
+
+plot_weight <- ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
+  geom_boxplot() +
+  labs(x = "Species", y = expression(log[10](Weight))) +
+  scale_y_log10()
+
+plot_count <- ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
+  geom_line() +
+  labs(x = "Year", y = "Abundance")
+
+plot_weight / plot_count + plot_layout(heights = c(3, 2))
+```
+
+You can also use parentheses `()` to create more complex layouts. There are
+many useful examples on the [patchwork website](https://patchwork.data-imaginist.com/)
+
+
 # Function lesson

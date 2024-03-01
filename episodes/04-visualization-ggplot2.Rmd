@@ -5,13 +5,25 @@ minutes: 60
 editor_options:
   chunk_output_type: console
 ---
-<note> convert this a 'clean' data set that people can pick up and load if they just cant.
-Usually some people get lost here
-</note>
+
+<!-- Create a cleaned data set and place it in the download folders so that people 
+who are lost can just load the data set -->
+
+<!--
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE, purl=FALSE}
 source("setup.R")
 surveys_complete <- read_csv(file = "data_raw/portal_data_joined.csv", col_types = cols()) %>% drop_na(weight, hindfoot_length, sex) %>% group_by(species_id) %>% filter(n() >= 50) %>% ungroup()
 ```
+-->
+
+```{r}
+surveys_complete <- read_csv('data_raw/portal_surveys_complete.csv')
+
+```
+
+For those of yall who werent able to create the file from the last lesson. 
+You can grab it here. But make sure to go back after the workshop and try to recreate the file correctly later.
+
 
 ```{r, echo=FALSE, purl=TRUE}
 ### Data Visualization with ggplot2
@@ -160,36 +172,7 @@ surveys_plot
   + geom_point()
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
-### Challenge (optional)
-
-Scatter plots can be useful exploratory tools for small datasets. For data
-sets with large numbers of observations, such as the `surveys_complete` data
-set, overplotting of points can be a limitation of scatter plots. One strategy
-for handling such settings is to use hexagonal binning of observations. The
-plot space is tessellated into hexagons. Each hexagon is assigned a color
-based on the number of observations that fall within its boundaries.  To use
-hexagonal binning with **`ggplot2`**, first install the R package `hexbin`
-from CRAN:
-
-```{r, eval=FALSE}
-install.packages("hexbin")
-library(hexbin)
-```
-
-Then use the `geom_hex()` function:
-
-```{r, eval=FALSE}
-surveys_plot +
- geom_hex()
-```
-
-- What are the relative strengths and weaknesses of a hexagonal bin plot
-  compared to a scatter plot? Examine the above scatter plot and compare it
-  with the hexagonal bin plot that you created.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r hexbin-challenge, echo=FALSE, eval=FALSE, purl=TRUE}
 ### Challenge with hexbin
@@ -416,6 +399,7 @@ ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
     geom_line()
 ```
 
+
 ## Integrating the pipe operator with ggplot2
 
 In the previous lesson, we saw how to use the pipe operator `%>%` to use
@@ -440,6 +424,15 @@ yearly_counts_graph <- surveys_complete %>%
 
 yearly_counts_graph
 ```
+
+
+### Lesson together
+
+Looking at this plot, its not too bad. What are ways in which we can make this plot better?
+Ideas:  
+- Thicker lines
+- Change font and size of axis labels.  
+- Change axis labels?
 
 ## Faceting
 
@@ -700,42 +693,6 @@ saved plot.
 ```
 
 
-<note> This is extra innings mode here. People can read this later. </note>
-## Arranging plots
-
-Faceting is a great tool for splitting one plot into multiple plots, but
-sometimes you may want to produce a single figure that contains multiple plots
-using different variables or even different data frames. The **`patchwork`**
-package allows us to combine separate ggplots into a single figure while keeping
-everything aligned properly. Like most R packages, we can install `patchwork`
-from CRAN, the R package repository:
-
-```{r patchwork-install, eval=FALSE}
-install.packages("patchwork")
-```
-
-After you have loaded the `patchwork` package you can use `+` to place plots
-next to each other, `/` to arrange them vertically, and `plot_layout()` to
-determine how much space each plot uses:
-
-```{r patchwork-example, message=FALSE, purl=FALSE, fig.width=10}
-library(patchwork)
-
-plot_weight <- ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
-  geom_boxplot() +
-  labs(x = "Species", y = expression(log[10](Weight))) +
-  scale_y_log10()
-
-plot_count <- ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
-  geom_line() +
-  labs(x = "Year", y = "Abundance")
-
-plot_weight / plot_count + plot_layout(heights = c(3, 2))
-```
-
-You can also use parentheses `()` to create more complex layouts. There are
-many useful examples on the [patchwork website](https://patchwork.data-imaginist.com/)
-
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
@@ -748,3 +705,43 @@ many useful examples on the [patchwork website](https://patchwork.data-imaginist
 - use `ggsave()` to save plots in your favorite format and dimensions
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+### Extra innings questions
+
+What other kinds of plots would people like to see?
+
+Do you want to work through an ugly plot together and fix it?
+
+Would you prefer to move forward and go to more advanced subjects?
+
+Time/Dates?
+
+Functions?
+
+Spatial?
+
+## Fix a bad graph
+
+```{r}
+
+ggplot(data = yearly_counts, aes(x = year, y = n)) +
+    geom_line() +
+    facet_wrap(facets = vars(genus))+
+  ylab("n")+
+  theme(axis.text.x = element_text(size = 15, ang=90, color = "purple"), 
+        axis.text.y = element_text(size = 2, color = "red"), 
+        axis.title.y = element_text(size = 20), 
+        plot.background = element_rect(fill="green"), 
+        panel.background = element_rect(fill="red", color="black"), 
+        panel.grid.major = element_line(colour = "red"), 
+        panel.grid.minor = element_line(colour = "purple"), 
+        title = element_text(size = 1), 
+#        axis.line.x = element_line(colour = "black"), 
+#        axis.line.y = element_line(colour = "black"), 
+        strip.background = element_rect(fill = "orange", color = "black"), 
+        strip.text = element_text(size = 15, color="red"),
+        legend.background = element_rect(fill="black"),
+        legend.text = element_text(color="gray"),
+        legend.key=element_rect(fill="white"))
+```

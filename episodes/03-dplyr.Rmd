@@ -1,7 +1,7 @@
 ---
 title: Manipulating, analyzing and exporting data with tidyverse
 author: Data Carpentry contributors
-minutes: 
+minutes: 45
 ---
 
 ```{r, echo=FALSE, purl=FALSE, message=FALSE}
@@ -24,7 +24,6 @@ suppressWarnings(surveys$date <- lubridate::ymd(paste(surveys$year,
 - Use `summarize`, `group_by`, and `count` to split a data frame into groups of observations, apply summary statistics for each group, and then combine the results.
 - Describe the concept of a wide and a long table format and for which purpose those formats are useful.
 - Describe what key-value pairs are.
-- Reshape a data frame from long to wide format and back with the `pivot_wider` and `pivot_longer` commands from the **`tidyr`** package.
 - Export a data frame to a .csv file.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -49,9 +48,9 @@ import it in every subsequent R session when you need it.
 
 Packages in our pb&j example is kind of like giving somebody a
 box full of 'sandwich making' tools and machines.
-Maybe you wanna give them a box pb&j machine, a bread maker, a bread slicer
+Maybe you wanna give them a box pb&j machine, a bread maker, a bread knife
 etc. All these things are related to making a sandwich, some of them,
-like the bread slicer is actually used in the pb&j machine.
+like the bread knife is actually used in our theoretical pb&j machine.
 
 Thats all packages R a related set of functions written and built by some
 developer
@@ -146,7 +145,7 @@ Next, we're going to learn some of the most common **`dplyr`** functions:
 - `count()`: count discrete values
 
 ## Selecting columns and filtering rows
-
+<!-- Go through these slowly and make sure people understand -->
 To select columns of a data frame, use `select()`. The first argument
 to this function is the data frame (`surveys`), and the subsequent
 arguments are the columns to keep.
@@ -567,12 +566,12 @@ Similar to the `read_csv()` function used for reading CSV files into R, there is
 a `write_csv()` function that generates CSV files from data frames.
 
 Before using `write_csv()`, we are going to create a new folder, `data`,
-in our working directory that will store this generated dataset. We don't want
-to write generated datasets in the same directory as our raw data. It's good
-practice to keep them separate. The `data_raw` folder should only contain the raw,
-unaltered data, and should be left alone to make sure we don't delete or modify
-it. In contrast, our script will generate the contents of the `data`
-directory, so even if the files it contains are deleted, we can always
+in our working directory that will store this generated dataset.
+
+For this workshop we're going to save things in the same folder,
+but remember It's good practice to keep them separate. Ideally you
+should create a `data_raw` folder that should only contain the raw,
+unaltered data. So that even if the files it contains are deleted, we can always
 re-generate them.
 
 In preparation for our next lesson on plotting, we are going to prepare a

@@ -188,6 +188,9 @@ frame with the function `str()`:
 str(surveys)
 ```
 
+This info can also be seen by looking in the environment frame of RStudio and clicking on the arrow button. You can also open and View the data.frame by clicking on the spreadsheet icon.
+
+
 ## Inspecting data frames
 
 We already saw how the functions `head()` and `str()` can be useful to
@@ -420,6 +423,51 @@ R has a special class for working with categorical data, called
 particularly well suited to working with data. So we are going to spend
 a little time introducing them.
 
+A factor is essentially a character, but with two extra properties.  
+- They have predefined values  
+- These values have levels.  
+- They have some order to them, whether its meaningful or not
+
+As we'll see this type of data is a mix of programming and scientific necessity. 
+They dont sole exist for programming reasons and theyre not insignificant from a scientific/statistical standpoint.
+
+ex.
+
+So say you have Treatment 1, Treatment 2, and Treatment 3 in a study and measured results in each treatment.  
+Maybe herbicides on three different range plots.  
+Through a scientific lens these are distinctly different categories and should be treated separately.
+
+There are not 4 different kinds of treatments only 3. You can not analyze treatment 4 it does not exist.  
+So that satisfies criteria one and two.
+
+Do they have an order to them?
+
+Well maybe. If you were to graph these using a bar graph what order would you want to see the treatments displayed in?
+
+Treatment 2, Treatment 3, Treatment 1?  
+Or  
+Treatment 1, Treatment 2, Treatment 3?  
+
+Obviously 1->2->3 is aesthetically pleasing.  
+
+From a statistical stand point is this scientifically meaningful?  
+No, if i ran an anova across these, it wouldnt matter which was first.  
+But if I'm graphing it I want a way to tell the program which comes first.  
+
+Now in some analysis lets say you had 1 plot and 3 treatments and you applied each treatment
+one at a time and measured some value after each treatment.  
+Or going back to our PB&J recipe and each ingredient is a treatment. 
+The measured variable is deliciousness of the sandwich.  
+
+Is the order meaningful in those examples? Yes.
+
+The 'Treatment' variable here is a factor. It has predetermined levels, and optionally it has an order to those levels. Whether statistically meaningful or just aesthetically meaningful.
+
+Factors are special and only really exist in statistical programming languages. 
+You wont see them elsewhere because theyre built from a mix of statistical and programming necessity.
+
+So lets return to what is a factor in R...
+
 Once created, factors can only contain a pre-defined set of values,
 known as *levels*. Factors are stored as integers associated with labels
 and they can be ordered or unordered. While factors look (and often
@@ -556,66 +604,7 @@ Notice that in the `levels()` approach, three important steps occur:
 -   We then access these numeric values using the underlying integers of
     the vector `year_fct` inside the square brackets
 
-### Renaming factors
-
-When your data is stored as a factor, you can use the `plot()` function
-to get a quick glance at the number of observations represented by each
-factor level. Let's look at the number of males and females captured
-over the course of the experiment:
-
-```{r, purl=TRUE}
-## bar plot of the number of females and males captured during the experiment:
-plot(surveys$sex)
-```
-<note> Check whether this is necessary, it seems needlessly complex</note>
-However, as we saw when we used `summary(surveys$sex)`, there are about
-1700 individuals for which the sex information hasn't been recorded. To
-show them in the plot, we can turn the missing values into a factor
-level with the `addNA()` function. We will also have to give the new
-factor level a label. We are going to work with a copy of the `sex`
-column, so we're not modifying the working copy of the data frame:
-
-```{r, results=TRUE, purl=FALSE}
-sex <- surveys$sex
-levels(sex)
-sex <- addNA(sex)
-levels(sex)
-head(sex)
-levels(sex)[3] <- "undetermined"
-levels(sex)
-head(sex)
-```
-
-Now we can plot the data again, using `plot(sex)`.
-
-```{r, echo=FALSE, purl=FALSE, results=TRUE}
-plot(sex)
-```
-
-::: challenge
-### Challenge
-
--   Rename "F" and "M" to "female" and "male" respectively.
--   Now that we have renamed the factor level to "undetermined", can you
-    recreate the barplot such that "undetermined" is first (before
-    "female")?
-
-::: solution
-```{r, answer=TRUE, purl=FALSE}
-levels(sex)[1:2] <- c("female", "male")
-sex <- factor(sex, levels = c("undetermined", "female", "male"))
-plot(sex)
-```
-:::
-:::
-
-```{r wrong-order, results="show", echo=FALSE, purl=TRUE}
-## Challenges
-##
-## * Rename "F" and "M" to "female" and "male" respectively.
-## * Now that we have renamed the factor level to "undetermined", can you recreate the
-##   barplot such that "undetermined" is first (before "female")
-```
+<!-- Still deciding if the above is necessary or not -->
 
 ::: challenge
 ### Challenge
