@@ -1,7 +1,7 @@
 ---
 title: Starting with data
 author: Data Carpentry contributors
-minutes: 20
+minutes: 45
 editor_options: 
   markdown: 
     wrap: 72
@@ -81,7 +81,7 @@ downloads a CSV file from figshare. The text after the comma
 your local machine. You'll need to have a folder on your machine called
 "data" where you'll download the file. So this command downloads a
 file from Figshare, names it "portal_data_joined.csv" and adds it to a
-preexisting folder named "data_raw".
+preexisting folder named "data".
 
 **\<note>** check here that everyone has this file **\</note>**
 
@@ -124,7 +124,7 @@ files. Check out the help for
 `read.table()` by typing `?read.table` to learn more.
 
 
-**\<note>** You can just skip this in class, but leave it in notes for others to read later **\</note>**  
+**\<note>** You can just skip the following section in in class, but leave it in notes for others to read later 
 
 In addition to the above versions of the csv format, you should develop
 the habits of looking at and recording some parameters of your csv
@@ -135,6 +135,8 @@ variables), and the presence of unexpected
 characteristics of your data files. Those parameters will ease up the
 import step of your data in R.
 :::
+**\</note>**  
+
 
 We can see the contents of the first few lines of the data by typing its
 name: `surveys`. By default, this will show you as many rows and columns
@@ -423,18 +425,22 @@ R has a special class for working with categorical data, called
 particularly well suited to working with data. So we are going to spend
 a little time introducing them.
 
+### An Aside to Factors 
+
 A factor is essentially a character, but with two extra properties.  
+
 - They have predefined values  
 - These values have levels.  
 - They have some order to them, whether its meaningful or not
 
 As we'll see this type of data is a mix of programming and scientific necessity. 
-They dont sole exist for programming reasons and theyre not insignificant from a scientific/statistical standpoint.
+They dont solely exist for programming reasons and theyre not insignificant from a scientific/statistical standpoint.
 
-ex.
+**For Example.**
 
-So say you have Treatment 1, Treatment 2, and Treatment 3 in a study and measured results in each treatment.  
+So say you have 3 treatments: Treatment 1, Treatment 2, and Treatment 3 and you measured results after each treatment.  
 Maybe herbicides on three different range plots.  
+
 Through a scientific lens these are distinctly different categories and should be treated separately.
 
 There are not 4 different kinds of treatments only 3. You can not analyze treatment 4 it does not exist.  
@@ -455,9 +461,9 @@ No, if i ran an anova across these, it wouldnt matter which was first.
 But if I'm graphing it I want a way to tell the program which comes first.  
 
 Now in some analysis lets say you had 1 plot and 3 treatments and you applied each treatment
-one at a time and measured some value after each treatment.  
+one at a time and measured some value after each treatment. 
 Or going back to our PB&J recipe and each ingredient is a treatment. 
-The measured variable is deliciousness of the sandwich.  
+Say the measured variable is **deliciousness** of the sandwich.  
 
 Is the order meaningful in those examples? Yes.
 
@@ -467,6 +473,8 @@ Factors are special and only really exist in statistical programming languages.
 You wont see them elsewhere because theyre built from a mix of statistical and programming necessity.
 
 So lets return to what is a factor in R...
+
+### Back to Factors
 
 Once created, factors can only contain a pre-defined set of values,
 known as *levels*. Factors are stored as integers associated with labels
@@ -567,6 +575,12 @@ nlevels(surveys$genus)
 ```
 
 ### Converting factors
+
+**\<note>**
+This is a little more complicated than we want to teach, but factors and how to handle them are a very important fundamental skill when 
+you move into doing statistics in R so we will spend some time here learning more.
+
+**\note<\note>**
 
 If you need to convert a factor to a character vector, you use
 `as.character(x)`.

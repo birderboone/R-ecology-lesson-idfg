@@ -63,7 +63,12 @@ for assignments, but not in every context. Because of the
 [differences](https://renkun.me/2014/01/28/difference-between-assignment-operators-in-r/)
 in syntax, it is good practice to always use `<-` for assignments.
 
-<notes> Use this time to explain and show that actually means to assign something a value </notes>
+<!--
+<notes> </notes>
+-->
+
+**\<note>** Use this time to explain and show that <- actually means to assign something a value. This is easy not to understand for a beginner
+**\</note>**  
 
 In RStudio, typing <kbd>Alt</kbd> + <kbd>\-</kbd> (push <kbd>Alt</kbd> at the
 same time as the <kbd>\-</kbd> key) will write `<-` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>\-</kbd> (push <kbd>Option</kbd> at the
@@ -90,7 +95,7 @@ Objects can be given almost any name such as `x`, `current_temperature`, or `sub
 ### Objects vs. variables
 
 **\<note>** This is a good lesson to cement in that the script and the console are related to each other
-**</note>**  
+**\</note>**  
 
 What are known as `objects` in `R` are known as `variables` in many other
 programming languages. Depending on the context, `object` and `variable` can
@@ -106,7 +111,6 @@ When assigning a value to an object, R does not print anything. You can force R 
 weight_kg <- 55    # doesn't print anything
 weight_kg          # just typing the object name will print it to the console
 print(weight_kg)   # does the same thing
-(weight_kg <- 55)  # less often used, but parenthesis in code will also print the output
 
 ```
 
@@ -144,8 +148,7 @@ What do you think is the current content of the object `weight_lb`? 126.5 or 220
 
 Up to now, your code has been in the console. This is useful for quick queries
 but not so helpful if you want to revisit your work for any reason.
-A script can be opened by pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> +
-<kbd>N</kbd>.
+You can open a script under the <kbd>File</kbd> tab.  
 It is wise to save your script file immediately. To do this press
 <kbd>Ctrl</kbd> + <kbd>S</kbd>. This will open a dialogue box where you
 can decide where to save your script file, and what to name it.
@@ -227,16 +230,16 @@ function operates, such as whether it ignores 'bad values', or what symbol to
 use in a plot.  However, if you want something specific, you can specify a value
 of your choice which will be used instead of the default.
 
-**\<note>**
+### How to make a PB&J sandwich with R
+
 Now an important fact here is that functions are just a bunch of code wrapped together.
 Its just a canned recipe with set requirements/ingredients and always makes the same thing.
 Its like saying, I want to make a peanut butter and jelly sandwich. But I want to
 make it the exact same every single time. How would you instruct someone how to make
-a peanut butter jelly sandwich and gaurantee they'll make it the same everytime?
+a peanut butter jelly sandwich and guarantee they'll make it the same every time?
 
-Well you can write a recipe for them, or you can just build them a
-'peanut butter and jelly making machine'. In R we have these same options. We can either
-share scripts or make them functions/packages. Except in R making a PB&J machine is pretty easy compared to real life.
+Well you can write a recipe for them or an entire 'PB&J cookbook'. In R we have this same options. We can either
+share scripts or make them functions/packages.
 
 So lets start with writing a recipe. How would you write a recipe for a PB&J that you could share with someone.  
 It would probably look something like this:
@@ -252,17 +255,17 @@ Instructions
 - Lay out two slices of bread
 - Spread 2tbsp of peanut butter on one slice of bread
 - Spread 2tbsp of grapy jelly on the other slice of bread
-- Place the two pieces of bread together (peanut butter to jelly)
+- Place the two pieces of bread together
 - Cut diagonal with a knife
 - Serve!
 ```
 
 I can hand you this recipe and you'll know how to make a PB&J sandwich reliably. 
-This is your script. The script itself does not do the work. The script is just the recipe you hand over. The console is *you*, *you* are the one making the recipe.
+This is your script. The script itself does not do the work. The script is just the recipe you hand over. The console is **you**, **you** are the one making the recipe.
 
 We'll play with this concept as we go.
 
-Now whats a function? Well its basically a PB&J machine. It uses a recipe. Takes the required ingredients you give it. Makes your sandwich. Pops it out. It makes the same sandwich every single time.
+Now whats a function? Well its basically a PB&J cookbook. Its a package of recipes. The R console can use those recipes, take the ingredients you give it, and pop out a metaphorical sandwich.  It makes the same sandwich every single time.
 
 Lets look at the standard deviation function
 
@@ -270,21 +273,21 @@ Lets look at the standard deviation function
 sd
 ```
 
-**\<note>** Heres where we can explain that a function without the parenthesis works differently than with parenthesis **</note>**
+**\<note>** Heres where we can explain that a function without the parenthesis works differently than with parenthesis **\</note>**
 
 
 When you print out a function without giving the parenthesis it will show you the **script** or the **recipe** it uses. This is one of the most simple functions. If you ignore the 'is.___' and you know that sqrt is the square root function and var is the variance function. Then it takes an input and calculates the square root of the variance.
 
 Let's try a simple function that can take multiple arguments: `round()`.
 
-```{r,results="show"}
+```{r,results="hide"}
 round
 ?round
 ```
 
-It has two arguments, x and digits. These are the ingredients to your round sandwich. x is a common variable term for the data, in order to calculate the standard deviation it obviously needs **the data**. 
+It has two arguments, x and digits. These are the ingredients to your round function. `x` is a common variable term for the data, in order to calculate the standard deviation it obviously needs **the data**. 
 
-It also is telling us it needs something else, digits. I know from this and from the help file, this argument is telling us how many digits to round our number to. This digits argument is set equal to 0. What does that mean? When you're running a function, the = means you're assigning a value to that argument. This is how we tell the function what ingredient we want to use. Maybe you want to give it wheat bread, not white bread, maybe grape jelly not strawberry. etc.
+It also is telling us it needs something else, digits. I know from the return and from the help file, that this argument is telling us how many digits to round our number to. This digits argument is set equal to 0. What does that mean? When you're running a function, the = means you're assigning a value to that argument. This is how we tell the function what ingredient we want to use. Maybe you want to give it wheat bread, not white bread, maybe grape jelly not strawberry. etc.
 
 In our theoretical PB&J function this is what our arguments would be:
 
@@ -292,7 +295,7 @@ In our theoretical PB&J function this is what our arguments would be:
 pbj(bread = "white bread", jelly="smuckers grape jelly", peanut_butter = "jif smooth peanut butter")
 ```
 
-So what the round function is trying to tell us with digits=0 is it's telling us the default answer its going to use if you dont give it one. If we don't tell it what kind of peanut butter or jelly we want to use, it will use the default: JIF smooth peanut butter and Scmuckers grape jelly.
+So what the round function is trying to tell us with digits=0 is it's telling us the default answer its going to use if you dont give it one. If we don't tell it what kind of peanut butter or jelly we want to use, it will use the default: JIF smooth peanut butter and Smuckers grape jelly.
 
 We can rewrite our PB&J recipe to match this concept like this:
 ```
@@ -410,7 +413,7 @@ This usually means the annoying task of having to define what kind of data somet
 But having these data types is a way of making
 sure that R runs smoothly and reliably every time.
 
-##### This easiest example is '1'. 
+##### This easiest example is '1' as written on a scientific data sheet. 
 
 '1' can be all 4 data types
 
@@ -473,6 +476,7 @@ You can use the `c()` function to add other elements to your vector:
 weight_g <- c(weight_g, 90) # add to the end of the vector
 weight_g <- c(30, weight_g) # add to the beginning of the vector
 weight_g
+
 ```
 
 In the first line, we take the original vector `weight_g`,
@@ -487,6 +491,10 @@ calculating.
 An **atomic vector** is the simplest R **data type** and is a linear vector of a single type.
 
 You can check the type of your vector using the `typeof()` function and inputting your vector as the argument.
+
+```{r}
+typeof(weight_g)
+```
 
 Vectors are one of the many **data structures** that R uses. Other important
 ones are lists (`list`), matrices (`matrix`), data frames (`data.frame`),
@@ -797,3 +805,9 @@ using in the other lessons, and learn about data frames.
 - Many functions exist to remove missing data from data structures. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+```{ purl=TRUE}
+Before we begin the next chapter I want everyone to make sure they've created a `data` folder in their working directory.
+
+```

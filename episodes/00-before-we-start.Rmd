@@ -206,7 +206,7 @@ Using a consistent folder structure across your projects will help keep things
 organized, and will help you to find/file things in the future. This
 can be especially helpful when you have multiple projects.
 
-Right now I want you to create 2 directories (folders) calle **scripts** and **data**.
+
 
 Best practice teaches you its good to always have atleast 4 kinds of folders in your project folder:
 
@@ -229,6 +229,8 @@ Best practice teaches you its good to always have atleast 4 kinds of folders in 
 - **Additional (sub)directories** depending on your project needs.
 
 For this workshop, we will need `data/` for when we learn how to export data as CSV files, and a `fig/` folder for the figures that we will save.
+
+Right now I want you to create 2 directories (folders) called **data** and **fig**.
 
 - Under the `Files` tab on the right of the screen, click on `New Folder` and
   create a folder named `data` within your newly created working directory
@@ -294,12 +296,16 @@ selected text will be sent to the console and executed when you press
 this [RStudio cheatsheet about the RStudio
 IDE](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rstudio-ide.pdf).
 
+
+<!-- not necessary but good tip
 At some point in your analysis you may want to check the content of a variable
 or the structure of an object, without necessarily keeping a record of it in
 your script. You can type these commands and execute them directly in the
 console. RStudio provides the <kbd>`Ctrl`</kbd> + <kbd>`1`</kbd> and
 <kbd>`Ctrl`</kbd> + <kbd>`2`</kbd> shortcuts allow you to jump between the
 script and the console panes.
+--->
+
 
 If R is ready to accept commands, the R console shows a `>` prompt. If it
 receives a command (by typing, copy-pasting or sent from the script editor using
@@ -317,15 +323,18 @@ inside the console window and press <kbd>`Esc`</kbd>; this will cancel the
 incomplete command and return you to the `>` prompt.\
 
 <note>
-I want everyone to understand that what happens in scripts is that its loading things to the console. The console is the engine where everything actually gets done. The script is just the recipe, the steps, for the process. So if I type something in the console, it runs. If I run something in the script, it also runs, but it runs it *in* the console. This is why you can run something in either the console or the script. Scripts just send commands to the console. Thats also why things 'print' or 'output' to the console. 
+I want everyone to understand that what happens in scripts is that its loading things to the console. The console is the engine where everything actually gets done. The script is just the recipe, the steps, for the process. So if I type something in the console, it runs. If I run something in the script, it also runs, but it runs it **in** the console. This is why you can run something in either the console or the script. Scripts just send commands to the console. Thats also why things 'print' or 'output' to the console. 
 </note>
 
 ## Seeking help
 
 ### Searching function documentation with `?` and `??`
+<!---
 # <note> I've never understood the emphasis on in code help. Instead of
-# Just using the help pane. To me it also confuses people a lot
+# Jjst using the help pane. To me it also confuses people a lot
 # </note>
+-->
+
 If you need help with a specific function, let's say `mean()`, you can type
 `?mean`. If you are looking for a function to do a particular task, but don't 
 know the function name, you can use the double question mark `??`, for example 
@@ -471,12 +480,13 @@ Some of you might feel confident enough to start doing a project your self.
 Others may feel they need a refrsher. Here are some useful next steps depending
 on how you feel at the end today.
 
-*Useful*  
+**Useful**
+
 - Go back through these lessons on your R! I would suggest everyone go back
-through the lessons after we're done here. And use that time to try things out
+through the lessons after we're done here. Use that time to try things out
 that you didnt have time during class.  
 - Swirl - R package that is will help walk you through beginner concepts in R.
-Its actually used *inside* R! Its great for people who feel like they were not
+Its actually used **inside** R! Its great for people who feel like they were not
 able to grab the concepts by the end of class, or just need a refresher.  
 - R for Data Science - Next step - intermediate level - learning. This is an
 ebook written by the same package writer who wrote many of the packages
@@ -486,18 +496,19 @@ secrets hiding in this ebook though. I definitely recommend it at some point
 in your R learning. [R for Data Science](https://r4ds.hadley.nz/)  
 - Coursera - Can be difficult to grasp as someone who hasnt learned a programming
 language before, however after this course you should be able to handle faster
-and with a leg up. It's also a more course centric approach if thats what you need.
+and with a leg up. It's also a more course centric approach if thats what you need.  
 - Get a project and start playing around with R!
 
-*Dry*
+**Dry**
+
 - The [Introduction to R](https://cran.r-project.org/doc/manuals/R-intro.pdf)
-  can also be dense for people with little programming experience but it is a
-  good place to understand the underpinnings of the R language.
+  can be dense for people with little programming experience but it is a
+  good place to understand the underpinnings of the R language.  
 - The [R FAQ](https://cran.r-project.org/doc/FAQ/R-FAQ.html) is dense and
-  technical but it is full of useful information.
+  technical but it is full of useful information.  
 - To stay up to date, follow `#rstats` on twitter. Twitter can also be a way
   to get questions answered and learn about useful R packages and tipps (e.g.,
-  [@RLangTips])
+  [@RLangTips])  
 
 *Also*
 ```{r kitten-img, results="markup", echo=FALSE, purl=FALSE, out.width="400px", fig.align="center"}
