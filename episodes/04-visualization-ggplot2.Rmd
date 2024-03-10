@@ -702,7 +702,7 @@ Functions?
 
 Spatial?
 
-## Fix a bad graph
+## Fix a bad graph either together or as a challenge
 
 ```{r}
 

@@ -6,7 +6,7 @@ minutes: 45
 
 ```{r, echo=FALSE, purl=FALSE, message=FALSE}
 source("setup.R")
-surveys <- read.csv("data_raw/portal_data_joined.csv")
+surveys <- read.csv("data/portal_data_joined.csv")
 suppressWarnings(surveys$date <- lubridate::ymd(paste(surveys$year,
                                                       surveys$month,
                                                       surveys$day,
@@ -122,7 +122,7 @@ As before, we'll read in our data using the `read_csv()` function from the
 tidyverse package **`readr`**.
 
 ```{r, results="hide", purl=FALSE}
-surveys <- read_csv("data_raw/portal_data_joined.csv")
+surveys <- read_csv("data/portal_data_joined.csv")
 ```
 
 ```{r, results="hide", purl=FALSE}
@@ -565,11 +565,8 @@ them with your collaborators or for archival.
 Similar to the `read_csv()` function used for reading CSV files into R, there is
 a `write_csv()` function that generates CSV files from data frames.
 
-Before using `write_csv()`, we are going to create a new folder, `data`,
-in our working directory that will store this generated dataset.
-
-For this workshop we're going to save things in the same folder,
-but remember It's good practice to keep them separate. Ideally you
+For this workshop we're going to save things in the same folder: `data`,
+but remember it's good practice to keep them separate. Ideally you
 should create a `data_raw` folder that should only contain the raw,
 unaltered data. So that even if the files it contains are deleted, we can always
 re-generate them.
